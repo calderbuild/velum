@@ -1,0 +1,28 @@
+# Velum with Apertus served next to it by llama.cpp. The network is internal: neither container
+# has a route out, so the run proves that nothing leaves the machine. The model file must be in
+# ./models beforehand (see docs/airgapped.md); nothing is downloaded at runtime.
+services:
+  apertus:
+    image: ghcr.io/ggml-org/llama.cpp:server-b11312
+    command: ["-m", "/models/${GGUF:-apertus-v1.5-8b-text-q4_k_m.gguf}", "--host", "0.0.0.0", "--port", "8080",
+              "--ctx-size", "16384", "--jinja", "--parallel", "2"]
+    volumes: ["./models:/models:ro"]
+    networks: [sealed]
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:8080/health"]
+      interval: 5s
+      retries: 60
+  velum:
+    build: .
+    command: ["python", "-m", "velum", "demo"]
+    environment:
+      LLM_NAME: apertus
+      LLM_BASE_URL: http://apertus:8080/v1
+      LLM_API_KEY: local
+    depends_on:
+      apertus:
+        condition: service_healthy
+    networks: [sealed]
+networks:
+  sealed:
+    internal: true

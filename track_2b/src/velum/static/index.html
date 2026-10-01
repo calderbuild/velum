@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Velum review</title>
+<style>
+:root {
+  --desk: #d8dedb;
+  --desk-2: #cbd3cf;
+  --paper: #ffffff;
+  --ink: #1c2230;
+  --ink-2: #4c5465;
+  --ink-3: #6f7787;
+  --red: #b8302a;
+  --red-wash: #fbe9e7;
+  --blue: #1d56a3;
+  --blue-wash: #e6eef9;
+  --marker: #f5e15c;
+  --marker-2: #f8eca0;
+  --marker-3: #fbf4cc;
+  --line: #aeb6b2;
+  --line-2: #e4e7e5;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", P052, Georgia, serif;
+  --sans: "Avenir Next", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--desk); color: var(--ink); font: 14px/1.45 var(--sans); }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 12px 24px; border-bottom: 1px solid var(--desk-2); }
+.mark { font: 600 22px/1 var(--serif); letter-spacing: .01em; margin-right: 6px; }
+.field { display: flex; align-items: center; gap: 8px; }
+.field > span { color: var(--ink-2); font-size: 12px; }
+select { background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 5px 8px; max-width: 280px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; background: var(--paper); }
+.seg button { border: 0; background: transparent; padding: 5px 11px; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.spacer { flex: 1; }
+.btn { border: 1px solid var(--line); background: var(--paper); border-radius: 3px; padding: 5px 12px; }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn:disabled { opacity: .55; cursor: default; }
+.status { color: var(--ink-2); font-size: 12px; min-height: 1em; flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 28px; padding: 24px; align-items: start; }
+
+.sheet { background: var(--paper); box-shadow: 0 1px 2px rgba(28, 34, 48, .12), 0 8px 24px rgba(28, 34, 48, .06); display: grid; grid-template-columns: minmax(0, 1fr) 200px; }
+.doc { padding: 56px 40px 72px 64px; font: 17px/1.62 var(--serif); white-space: pre-wrap; overflow-wrap: anywhere; min-height: 60vh; }
+.margin { position: relative; border-left: 1px solid var(--line-2); }
+.note { position: absolute; left: 14px; right: 10px; text-align: left; border: 0; background: none; padding: 1px 0; font-size: 11.5px; line-height: 1.3; color: var(--ink-2); }
+.note b { font: 600 13px/1.2 var(--serif); }
+.note.n-ed b { color: var(--red); }
+.note.n-stet b { color: var(--blue); font-style: italic; font-weight: 400; }
+.note.sel b { text-decoration: underline; text-underline-offset: 3px; }
+
+.gap { display: block; height: .55em; overflow: hidden; color: transparent; white-space: normal; }
+.ed { cursor: pointer; border-radius: 2px; }
+.ed del { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 1.5px; }
+.ed ins { text-decoration: none; color: var(--red); margin-left: .25em; }
+.pub .ed del { display: none; }
+.pub .ed ins { color: var(--ink); margin-left: 0; box-shadow: inset 0 -1px 0 rgba(184, 48, 42, .45); }
+.stet { cursor: pointer; border-bottom: 2px dotted var(--blue); }
+.ed.sel { background: var(--red-wash); }
+.stet.sel { background: var(--blue-wash); }
+mark { color: inherit; background: var(--marker-3); }
+mark.high, .ed.risk-high, .stet.risk-high { background: var(--marker); }
+mark.medium { background: var(--marker-2); }
+.flash { animation: flash 1.2s ease-out; }
+@keyframes flash { from { outline: 3px solid var(--ink); outline-offset: 2px; } to { outline: 3px solid transparent; outline-offset: 2px; } }
+.empty { font: 15px/1.6 var(--sans); white-space: normal; color: var(--ink-2); max-width: 46ch; }
+.empty .btn { margin-top: 12px; }
+
+aside { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; padding-right: 4px; }
+aside section { padding: 14px 0 16px; border-top: 1px solid var(--desk-2); }
+aside section:first-child { border-top: 0; padding-top: 0; }
+h2 { font: 600 11px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 10px; }
+.meta { font-size: 13px; color: var(--ink-2); }
+.meta strong { display: block; font: 600 19px/1.25 var(--serif); color: var(--ink); margin-bottom: 2px; }
+.check { margin-top: 8px; font-size: 13px; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.row { display: grid; grid-template-columns: 104px minmax(0, 1fr) auto; gap: 2px 10px; width: 100%; border: 0; background: none; text-align: left; padding: 5px 6px; margin: 0 -6px; border-radius: 3px; }
+.row:hover, .row.sel { background: rgba(255, 255, 255, .55); }
+.row .lbl { font: 600 14px/1.3 var(--serif); color: var(--red); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row.kept .lbl { color: var(--blue); font-style: italic; font-weight: 400; }
+.row .who { font: 14px/1.3 var(--serif); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .n { color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+.row .why { grid-column: 2 / 4; color: var(--ink-3); font-size: 12px; }
+.risk-row { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 6px; margin: 0 -6px; border-radius: 3px; }
+.risk-row:hover { background: rgba(255, 255, 255, .55); }
+.risk-row q { font: 14px/1.35 var(--serif); quotes: none; background: var(--marker-3); }
+.risk-row.high q { background: var(--marker); }
+.risk-row.medium q { background: var(--marker-2); }
+.risk-row .sev { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-right: 6px; }
+.risk-row .why { display: block; color: var(--ink-2); font-size: 12.5px; margin-top: 2px; }
+.facts { font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.facts div { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; }
+.quiet { color: var(--ink-3); font-size: 12.5px; }
+
+.detail { background: var(--paper); padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(28, 34, 48, .12); }
+.detail[hidden] { display: none; }
+.detail .big { font: 600 22px/1.2 var(--serif); color: var(--red); }
+.detail.kept .big { color: var(--blue); font-style: italic; font-weight: 400; }
+.detail .orig { font: 15px/1.4 var(--serif); margin: 2px 0 8px; }
+.detail .rule { font-size: 13px; }
+.detail .rule em { font-style: normal; font-weight: 600; }
+.detail nav { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; color: var(--ink-2); }
+.detail nav button { border: 1px solid var(--line); background: var(--paper); border-radius: 3px; padding: 2px 9px; }
+.detail .close { float: right; border: 0; background: none; font-size: 18px; line-height: 1; padding: 0 2px; color: var(--ink-2); }
+
+dialog { border: 0; padding: 0; width: min(760px, calc(100vw - 32px)); background: var(--paper); color: var(--ink); box-shadow: 0 20px 60px rgba(0, 0, 0, .25); }
+dialog::backdrop { background: rgba(28, 34, 48, .35); }
+dialog form { padding: 22px 24px; display: grid; gap: 12px; }
+dialog h3 { margin: 0; font: 600 20px/1.2 var(--serif); }
+dialog textarea { width: 100%; min-height: 42vh; resize: vertical; border: 1px solid var(--line); border-radius: 3px; padding: 12px; font: 14.5px/1.5 var(--serif); }
+dialog input { border: 1px solid var(--line); border-radius: 3px; padding: 5px 8px; width: 100%; }
+dialog .line { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+dialog label { display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
+dialog .actions { display: flex; align-items: center; gap: 12px; }
+dialog .error { color: var(--red); font-size: 13px; }
+
+@media (max-width: 1100px) {
+  main { grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; padding: 16px; }
+  .sheet { grid-template-columns: minmax(0, 1fr) 160px; }
+  .doc { padding: 40px 28px 56px 36px; }
+}
+@media (max-width: 860px) {
+  header { padding: 10px 16px; }
+  main { grid-template-columns: minmax(0, 1fr); padding: 12px 16px 120px; }
+  .sheet { grid-template-columns: minmax(0, 1fr); }
+  .margin { display: none; }
+  .doc { padding: 24px 18px 40px; font-size: 16px; }
+  aside { position: static; max-height: none; overflow: visible; }
+  .detail { position: fixed; left: 0; right: 0; bottom: 0; margin: 0; z-index: 5; box-shadow: 0 -6px 24px rgba(28, 34, 48, .18); max-height: 45vh; overflow: auto; }
+  select { max-width: 100%; }
+  .spacer { display: none; }
+  dialog .line { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flash { animation: none; outline: 3px solid var(--ink); }
+  * { scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<header>
+  <span class="mark">Velum</span>
+  <label class="field"><span>Decision</span><select id="cases" aria-label="Decision"></select></label>
+  <div class="field"><span>Rule pack</span><div class="seg" id="packs" role="group" aria-label="Rule pack"></div></div>
+  <div class="field"><span>View</span><div class="seg" id="views" role="group" aria-label="View">
+    <button type="button" data-view="proof" aria-pressed="true" title="Original struck through, replacement after it">Proof</button>
+    <button type="button" data-view="pub" aria-pressed="false" title="The text as it would be published">Publication</button>
+  </div></div>
+  <span class="status" id="status" role="status" aria-live="polite"></span>
+  <span class="spacer"></span>
+  <button type="button" class="btn" id="copy">Copy publication text</button>
+  <button type="button" class="btn primary" id="open-new">New decision</button>
+</header>
+
+<main>
+  <div class="sheet">
+    <div class="doc" id="doc" lang="de"><p class="empty">Loading decisions…</p></div>
+    <div class="margin" id="margin" aria-hidden="true"></div>
+  </div>
+  <aside id="side">
+    <div class="detail" id="detail" hidden></div>
+    <section id="about"></section>
+    <section><h2 id="replaced-h">Replaced</h2><ul class="rows" id="replaced"></ul></section>
+    <section><h2 id="kept-h">Kept on purpose</h2><ul class="rows" id="kept"></ul></section>
+    <section><h2 id="risks-h">Second reader</h2><div id="risks"></div></section>
+    <section><h2>This run</h2><div class="facts" id="facts"></div></section>
+  </aside>
+</main>
+
+<dialog id="new">
+  <form method="dialog" id="new-form">
+    <h3>Anonymise a decision</h3>
+    <textarea id="new-text" required placeholder="Paste the full text of the decision, header included."></textarea>
+    <div class="line">
+      <label>Language
+        <select id="new-lang">
+          <option value="">Detect automatically</option>
+          <option value="de">German</option>
+          <option value="fr">French</option>
+          <option value="it">Italian</option>
+        </select>
+      </label>
+      <label>Legal area (optional)
+        <input id="new-area" placeholder="e.g. Invalidenversicherung">
+      </label>
+    </div>
+    <p class="quiet" style="margin:0">The legal area decides whether the social insurance rule for experts and clinics applies. The text goes to the model endpoint this server was started with and nowhere else.</p>
+    <div class="actions">
+      <button type="submit" class="btn primary" id="run">Anonymise with Apertus</button>
+      <button type="button" class="btn" id="cancel">Cancel</button>
+      <span class="status" id="run-status" aria-live="polite"></span>
+    </div>
+    <div class="error" id="run-error"></div>
+  </form>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const TYPES = {
+  private_person: "private person", private_company: "private company", lawyer: "lawyer",
+  court_official: "court official", expert: "expert", authority: "authority", public_body: "public body",
+  residence: "residence", place: "place", address: "address", authority_address: "authority address",
+  identifier: "identifier", parcel_number: "parcel number", occupation: "occupation", birth_date: "birth date",
+};
+const ACTIONS = { pseudonymize: "replaced by", remove: "removed as", keep: "kept" };
+const state = { cases: [], packs: [], result: null, view: "proof", sel: null, occ: 0, pasted: null };
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") n.className = v; else n.setAttribute(k, v === true ? "" : v);
+  }
+  n.append(...kids.flat());
+  return n;
+}
+
+async function api(path, body) {
+  const res = await fetch(path, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
+  const data = await res.json().catch(() => ({ error: `The server answered ${res.status} without details.` }));
+  if (!res.ok) throw new Error(data.error || `The server answered ${res.status}.`);
+  return data;
+}
+
+// ---- loading ------------------------------------------------------------------------------
+
+async function start() {
+  try {
+    const data = await api("/api/cases");
+    state.cases = data.cases;
+    state.packs = data.packs;
+  } catch (e) {
+    return showEmpty(`The Velum server did not answer (${e.message}). Check that make run is still running.`);
+  }
+  renderPacks();
+  renderCaseList();
+  if (state.cases.length) loadCase(state.cases[0].id);
+  else showEmpty("No anonymised decisions yet. Paste a decision to run Velum on it.");
+}
+
+async function loadCase(id) {
+  if (id === "pasted") return show(state.pasted);
+  $("status").textContent = "Opening…";
+  try {
+    show(await api(`/api/case/${encodeURIComponent(id)}`));
+    $("status").textContent = "";
+  } catch (e) {
+    $("status").textContent = e.message;
+  }
+}
+
+function showEmpty(message) {
+  $("doc").replaceChildren(el("div", { class: "empty" }, el("p", {}, message),
+    el("button", { type: "button", class: "btn primary", onclick: "openNew()" }, "Paste a decision")));
+  $("margin").replaceChildren();
+}
+
+function renderCaseList() {
+  const options = state.cases.map((c) => el("option", { value: c.id },
+    `${c.docket} · ${c.court.toUpperCase()} · ${c.language}`));
+  if (state.pasted) options.push(el("option", { value: "pasted" }, state.pasted.docket));
+  $("cases").replaceChildren(...options);
+  if (state.result) $("cases").value = state.result.id;
+}
+
+function renderPacks() {
+  $("packs").replaceChildren(...state.packs.map((p) => el("button", {
+    type: "button", "data-pack": p.id, title: p.title, "aria-pressed": "false",
+  }, p.id === "bger-2020" ? "BGer 2020" : p.id === "zh-entscheide-2025" ? "ZH 2025" : p.id)));
+}
+
+// ---- rendering ----------------------------------------------------------------------------
+
+function show(result) {
+  state.result = result;
+  state.sel = null;
+  for (const b of $("packs").children) b.setAttribute("aria-pressed", String(b.dataset.pack === result.pack));
+  $("cases").value = result.id;
+  $("doc").lang = result.language || "de";
+  renderDoc();
+  renderSide();
+  renderDetail();
+}
+
+function toOriginal(p, edits) {
+  let delta = 0;
+  for (const e of edits) {
+    const from = e.start + delta;
+    if (p < from) break;
+    const to = from + e.replacement.length;
+    if (p <= to) return p === from ? e.start : e.end;
+    delta += e.replacement.length - (e.end - e.start);
+  }
+  return p - delta;
+}
+
+function renderDoc() {
+  const r = state.result;
+  const text = r.original;
+  const entities = new Map(r.entities.map((e) => [e.id, e]));
+  const risks = r.risks.map((x, i) => ({ start: toOriginal(x.start, r.edits), end: toOriginal(x.end, r.edits), sev: x.severity, i }));
+  const marks = [
+    ...r.edits.map((e, i) => ({ start: e.start, end: e.end, edit: e, i })),
+    ...r.kept.filter((k) => entities.get(k.entity)?.type !== "authority").map((k) => ({ start: k.start, end: k.end, kept: k })),
+  ].sort((a, b) => a.start - b.start);
+  const out = document.createDocumentFragment();
+  const seen = new Set();
+  let pos = 0;
+  for (const m of marks) {
+    if (m.start < pos) continue;
+    plain(out, text, pos, m.start, risks);
+    const id = (m.edit || m.kept).entity;
+    const first = !seen.has(id);
+    seen.add(id);
+    const risk = risks.find((x) => x.start < m.end && x.end > m.start);
+    const attrs = { "data-e": id, tabindex: first ? "0" : "-1", role: "button", "data-first": first };
+    if (m.edit) {
+      out.append(el("span", { ...attrs, class: "ed" + (risk ? ` risk-${risk.sev}` : ""), "data-r": risk?.i,
+        "aria-label": `${m.edit.original}, ${ACTIONS[m.edit.action]} ${m.edit.replacement}, ${m.edit.basis}` },
+        el("del", {}, m.edit.original), el("ins", {}, m.edit.replacement)));
+    } else {
+      out.append(el("span", { ...attrs, class: "stet" + (risk ? ` risk-${risk.sev}` : ""), "data-r": risk?.i },
+        text.slice(m.start, m.end)));
+    }
+    pos = m.end;
+  }
+  plain(out, text, pos, text.length, risks);
+  const doc = $("doc");
+  doc.classList.toggle("pub", state.view === "pub");
+  doc.replaceChildren(out);
+  layoutMargin();
+}
+
+function plain(out, text, a, b, risks) {
+  let p = a;
+  for (const x of risks) {
+    const s = Math.max(x.start, p), t = Math.min(x.end, b);
+    if (s >= t) continue;
+    if (s > p) out.append(...lines(text.slice(p, s)));
+    out.append(el("mark", { class: x.sev, "data-r": x.i }, text.slice(s, t)));
+    p = t;
+  }
+  if (p < b) out.append(...lines(text.slice(p, b)));
+}
+
+// Published decisions put an empty line after every line; a half-height gap reads better than a full one.
+function lines(s) {
+  return s.split(/(\n\s*\n)/).map((part, i) => i % 2 ? el("span", { class: "gap" }, part) : part);
+}
+
+function layoutMargin() {
+  const margin = $("margin");
+  if (getComputedStyle(margin).display === "none") return margin.replaceChildren();
+  const entities = new Map(state.result.entities.map((e) => [e.id, e]));
+  const top0 = $("doc").getBoundingClientRect().top;
+  const firsts = [...$("doc").querySelectorAll("[data-first]")];
+  const notes = firsts.map((node) => {
+    const e = entities.get(Number(node.dataset.e));
+    const kept = e.action === "keep";
+    return el("button", { type: "button", class: `note ${kept ? "n-stet" : "n-ed"}`, "data-e": e.id, tabindex: "-1" },
+      el("b", {}, kept ? "stet" : e.label), " ", e.basis);
+  });
+  margin.replaceChildren(...notes);
+  let floor = 0;
+  notes.forEach((note, i) => {
+    const want = firsts[i].getBoundingClientRect().top - top0;
+    const top = Math.max(want, floor);
+    note.style.top = `${top}px`;
+    floor = top + note.offsetHeight + 3;
+  });
+  margin.style.minHeight = `${floor}px`;
+  markSelection();
+}
+
+function renderSide() {
+  const r = state.result;
+  const pack = state.packs.find((p) => p.id === r.pack);
+  const about = [el("h2", {}, "Decision"), el("div", { class: "meta" },
+    el("strong", {}, r.docket || "Decision"),
+    [r.court && r.court.toUpperCase(), r.decision_date, { de: "German", fr: "French", it: "Italian" }[r.language], r.legal_area].filter(Boolean).join(" · "),
+    el("div", {}, "Rule pack: ", el("a", { href: r.pack_source, target: "_blank", rel: "noopener" }, pack ? pack.title : r.pack)),
+    r.social_insurance ? el("div", {}, "Social insurance case: experts and clinics are anonymised too.") : "")];
+  if (r.score && r.score_pack === r.pack) {
+    const s = r.score;
+    about.push(el("div", { class: "check" }, `Checked against VelumBench: ${s.gold - s.leaked} of ${s.gold} private mentions removed, ` +
+      `${s.keep - s.keep_redacted} of ${s.keep} judge, clerk and lawyer mentions kept.`));
+  }
+  $("about").replaceChildren(...about);
+
+  const replaced = r.entities.filter((e) => e.action !== "keep");
+  const kept = r.entities.filter((e) => e.action === "keep" && e.type !== "authority");
+  $("replaced-h").textContent = `Replaced (${replaced.length})`;
+  $("kept-h").textContent = `Kept on purpose (${kept.length})`;
+  $("replaced").replaceChildren(...replaced.map((e) => row(e, e.label)));
+  $("kept").replaceChildren(...kept.map((e) => row(e, "stet")));
+  if (!replaced.length) $("replaced").append(el("li", { class: "quiet" }, "Nothing was replaced."));
+  if (!kept.length) $("kept").append(el("li", { class: "quiet" }, "No names kept."));
+
+  $("risks-h").textContent = `Second reader (${r.risks.length})`;
+  $("risks").replaceChildren(...(r.risks.length ? r.risks.map((x, i) => el("button", {
+    type: "button", class: `risk-row ${x.severity}`, "data-r": i,
+  }, el("span", { class: "sev" }, x.severity), el("q", {}, x.quote), el("span", { class: "why" }, x.reason))) :
+    [el("p", { class: "quiet" }, "The second reader found nothing left to flag.")]));
+
+  const u = r.usage || {};
+  const fact = (k, v) => el("div", {}, el("span", {}, k), el("span", {}, v));
+  const pass = (p) => p && p.calls ? `${p.calls} calls · ${Math.round(p.seconds)} s` : "not run";
+  $("facts").replaceChildren(
+    fact("Model", (r.model || "").split("/").pop() || "unknown"),
+    fact("Extraction", pass(u.extraction)),
+    fact("Sweep", u.sweep ? `${pass(u.sweep)} · ${u.sweep.added.length} added` : "not run"),
+    fact("Second reader", pass(u.second_reader)),
+    fact("Mentions not found in the text", String((u.rejected_mentions || []).length)),
+    fact("Edits", String(r.edits.length)),
+  );
+}
+
+function row(e, label) {
+  const kept = e.action === "keep";
+  return el("li", {}, el("button", { type: "button", class: `row${kept ? " kept" : ""}`, "data-e": e.id },
+    el("span", { class: "lbl" }, label),
+    el("span", { class: "who" }, e.names[0]),
+    el("span", { class: "n" }, `${e.count}×`),
+    el("span", { class: "why" }, `${TYPES[e.type] || e.type} · ${e.basis}`)));
+}
+
+// ---- selection ----------------------------------------------------------------------------
+
+function occurrences(id) {
+  return [...$("doc").querySelectorAll(`[data-e="${id}"]`)];
+}
+
+function select(id, jump) {
+  if (state.sel !== id) state.occ = 0;
+  state.sel = id;
+  markSelection();
+  renderDetail();
+  if (jump) go(0);
+}
+
+function go(step) {
+  const nodes = occurrences(state.sel);
+  if (!nodes.length) return;
+  state.occ = (state.occ + step + nodes.length) % nodes.length;
+  nodes[state.occ].scrollIntoView({ block: "center", behavior: "smooth" });
+  nodes[state.occ].focus({ preventScroll: true });
+  renderDetail();
+}
+
+function markSelection() {
+  for (const n of document.querySelectorAll(".sel")) n.classList.remove("sel");
+  if (state.sel === null) return;
+  for (const n of document.querySelectorAll(`[data-e="${state.sel}"]`)) n.classList.add("sel");
+}
+
+function renderDetail() {
+  const box = $("detail");
+  const e = state.result && state.result.entities.find((x) => x.id === state.sel);
+  if (!e) { box.hidden = true; return; }
+  const kept = e.action === "keep";
+  const n = occurrences(e.id).length;
+  box.className = `detail${kept ? " kept" : ""}`;
+  box.replaceChildren(
+    el("button", { type: "button", class: "close", "aria-label": "Close", onclick: "clearSelection()" }, "×"),
+    el("div", { class: "big" }, kept ? "stet" : e.label),
+    el("div", { class: "orig" }, e.names.join(" · ")),
+    el("div", { class: "rule" }, `${TYPES[e.type] || e.type}, ${kept ? "kept" : ACTIONS[e.action].replace(/ by| as/, "")} under `,
+      el("em", {}, e.basis), `: ${e.why}`),
+    el("nav", {}, el("button", { type: "button", onclick: "go(-1)", "aria-label": "Previous occurrence" }, "‹"),
+      `${Math.min(state.occ + 1, n)} of ${n} in the text`,
+      el("button", { type: "button", onclick: "go(1)", "aria-label": "Next occurrence" }, "›")));
+  box.hidden = false;
+}
+
+function clearSelection() {
+  state.sel = null;
+  markSelection();
+  renderDetail();
+}
+
+function flashRisk(i) {
+  const node = $("doc").querySelector(`[data-r="${i}"]`);
+  if (!node) return;
+  node.scrollIntoView({ block: "center", behavior: "smooth" });
+  node.classList.remove("flash");
+  void node.offsetWidth;
+  node.classList.add("flash");
+}
+
+// ---- actions ------------------------------------------------------------------------------
+
+async function switchPack(pack) {
+  const r = state.result;
+  if (!r || r.pack === pack) return;
+  const t0 = performance.now();
+  $("status").textContent = "Applying rule pack…";
+  try {
+    const next = await api("/api/review", { original: r.original, language: r.language, legal_area: r.legal_area,
+      pack, mentions: r.mentions, reader: r.reader });
+    const merged = { ...r, ...next };
+    if (r.id === "pasted") state.pasted = merged;
+    show(merged);
+    $("status").textContent = `Rule pack applied in ${Math.round(performance.now() - t0)} ms, no model call.`;
+  } catch (e) {
+    $("status").textContent = e.message;
+  }
+}
+
+function openNew() {
+  $("run-error").textContent = "";
+  $("new").showModal();
+  $("new-text").focus();
+}
+
+async function runNew(event) {
+  event.preventDefault();
+  const text = $("new-text").value;
+  if (!text.trim()) { $("run-error").textContent = "Paste the text of a decision first."; return; }
+  const button = $("run");
+  button.disabled = true;
+  $("run-error").textContent = "";
+  const t0 = Date.now();
+  const tick = () => { $("run-status").textContent = `Apertus is reading the decision · ${Math.round((Date.now() - t0) / 1000)} s`; };
+  tick();
+  const timer = setInterval(tick, 1000);
+  try {
+    const pack = state.result ? state.result.pack : "bger-2020";
+    state.pasted = await api("/api/anonymize", { text, language: $("new-lang").value, legal_area: $("new-area").value, pack });
+    renderCaseList();
+    show(state.pasted);
+    $("new").close();
+  } catch (e) {
+    $("run-error").textContent = e.message;
+  } finally {
+    clearInterval(timer);
+    $("run-status").textContent = "";
+    button.disabled = false;
+  }
+}
+
+$("cases").addEventListener("change", (e) => loadCase(e.target.value));
+$("packs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) switchPack(b.dataset.pack); });
+$("views").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b || !state.result) return;
+  state.view = b.dataset.view;
+  for (const x of $("views").children) x.setAttribute("aria-pressed", String(x === b));
+  $("doc").classList.toggle("pub", state.view === "pub");
+  layoutMargin();
+});
+$("doc").addEventListener("click", (e) => { const n = e.target.closest("[data-e]"); if (n) select(Number(n.dataset.e), false); });
+$("doc").addEventListener("keydown", (e) => {
+  const n = e.target.closest("[data-e]");
+  if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); select(Number(n.dataset.e), false); }
+});
+$("margin").addEventListener("click", (e) => { const n = e.target.closest("[data-e]"); if (n) select(Number(n.dataset.e), true); });
+$("side").addEventListener("click", (e) => {
+  const n = e.target.closest(".row");
+  if (n) return select(Number(n.dataset.e), true);
+  const r = e.target.closest(".risk-row");
+  if (r) flashRisk(r.dataset.r);
+});
+$("copy").addEventListener("click", async () => {
+  if (!state.result) return;
+  try {
+    await navigator.clipboard.writeText(state.result.text);
+    $("status").textContent = "Publication text copied.";
+  } catch {
+    $("status").textContent = "The browser blocked the clipboard. Use the Publication view and copy by hand.";
+  }
+});
+$("open-new").addEventListener("click", openNew);
+$("cancel").addEventListener("click", () => $("new").close());
+$("new-form").addEventListener("submit", runNew);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.sel !== null && !$("new").open) clearSelection(); });
+let resizeTimer;
+window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => state.result && layoutMargin(), 120); });
+start();
+</script>
+</body>
+</html>

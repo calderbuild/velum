@@ -1,0 +1,86 @@
+# Rule pack: Canton of Zurich, decisions published in «ZHEntscheide» (cantonal administration).
+# Section numbers refer to the source below (part A "Anonymisierung").
+
+id = "zh-entscheide-2025"
+title = "Kanton Zürich, Staatskanzlei: «ZHEntscheide» Anleitung zum Einreichen der zu publizierenden Entscheide"
+adopted = "Stand März 2025"
+source = "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/politik-staat/gesetze-beschluesse/zhentscheide_anleitung_zum_einreichen_der_zu_publizierenden_entscheide_06.03.2025.pdf"
+placeholder = "{letter}."
+removed = "[…]"
+person_letters = "ABCDEFGHIJKLMNOPQRST"
+place_letters = "UVWXYZ"
+
+[category.private_person]
+action = "pseudonymize"
+basis = "A.II.1"
+why = "Personennamen werden durch einen Buchstaben dargestellt"
+
+[category.private_company]
+action = "pseudonymize"
+basis = "A.II.1"
+why = "Firmen durch einen Buchstaben, unter Belassung der abgekürzten Gesellschaftsform"
+
+[category.public_body]
+action = "pseudonymize"
+basis = "A.I.2, A.II.5 lit. a"
+why = "Gemeinden, Zweckverbände und Anstalten werden anonymisiert, wenn sie verfahrensbeteiligt sind"
+
+[category.authority]
+action = "keep"
+basis = "A.I.3"
+why = "Direktionen, Bezirksbehörden und Verwaltungseinheiten ohne Rechtspersönlichkeit werden genannt"
+
+[category.lawyer]
+action = "pseudonymize"
+basis = "A.I.4"
+why = "Namen anderer im Entscheid genannter Personen"
+
+[category.court_official]
+action = "pseudonymize"
+basis = "A.I.4"
+why = "Namen anderer im Entscheid genannter Personen"
+
+[category.expert]
+action = "pseudonymize"
+basis = "A.I.4"
+why = "Namen anderer im Entscheid genannter Personen oder Institutionen"
+
+[category.residence]
+action = "pseudonymize"
+basis = "A.II.5 lit. b"
+why = "Ortsbezeichnungen, die auf eine beteiligte Person schliessen lassen"
+
+[category.place]
+action = "keep"
+basis = "A.II.5"
+why = "Ortsbezeichnungen werden in der Regel nicht anonymisiert"
+
+[category.address]
+action = "remove"
+basis = "A.I.4"
+why = "Personenbezogene Angaben werden entfernt"
+
+[category.authority_address]
+action = "keep"
+basis = "A.I.3"
+why = "Verwaltungseinheiten werden mit vollständigem Namen genannt"
+
+[category.identifier]
+action = "remove"
+basis = "A.II.4"
+why = "Identifikationsnummern (Fahrzeugkennzeichen, Versichertennummern) werden entfernt"
+
+[category.parcel_number]
+action = "remove"
+basis = "A.II.4"
+why = "Katasternummern werden entfernt"
+
+[category.occupation]
+action = "remove"
+basis = "A.II.2"
+why = "Berufsbezeichnungen werden grundsätzlich entfernt"
+
+[category.birth_date]
+action = "remove"
+basis = "A.II.3"
+why = "Geburtsdaten und Jahrgänge werden entfernt, soweit nicht entscheidwesentlich"

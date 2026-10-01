@@ -1,0 +1,91 @@
+# Rule pack: Swiss Federal Supreme Court (Bundesgericht), anonymisation of published judgments.
+# Every category maps to the article that decides it. Article numbers refer to the source below.
+
+id = "bger-2020"
+title = "Bundesgericht: Regeln für die Anonymisierung der Urteile"
+adopted = "Präsidentenkonferenz 17.12.2019, Verwaltungskommission 13.02.2020"
+source = "https://www.bger.ch/files/live/sites/bger/files/pdf/Reglemente/Anonymisierungsregeln_2020_def_d.pdf"
+# The rules do not define a placeholder format. Letter + period + 8 underscores is the court's
+# published practice (98.9% of 4,980 placeholders in our BGer sample).
+placeholder = "{letter}.________"
+removed = "[…]"
+person_letters = "ABCDEFGHIJKLMNOPQRST"
+place_letters = "UVWXYZ"
+
+[category.private_person]
+action = "pseudonymize"
+basis = "Art. 1 Abs. 1"
+why = "Persönlichkeitsrechte der am Verfahren beteiligten natürlichen Privatpersonen"
+
+[category.private_company]
+action = "pseudonymize"
+basis = "Art. 1 Abs. 1"
+why = "Persönlichkeitsrechte der beteiligten juristischen Privatpersonen; Rechtsform bleibt stehen"
+
+[category.residence]
+action = "pseudonymize"
+basis = "Art. 7 Abs. 1"
+why = "Wohnort oder Sitz einer Partei, auch als Gemeindename im Sachverhalt oder in den Erwägungen"
+
+[category.address]
+action = "remove"
+basis = "Art. 7 Abs. 3"
+why = "Adressen von Parteien, Verfahrensbeteiligten und Rechtsvertretern werden in jedem Fall gestrichen"
+
+[category.authority_address]
+action = "keep"
+basis = "Art. 7 Abs. 3"
+why = "Adressen von Behörden sind vorbehalten"
+
+[category.identifier]
+action = "remove"
+basis = "Art. 1 Abs. 1-2"
+why = "Direkte Identifikatoren (AHV-Nr., IBAN, Telefon, E-Mail, Kontrollschild) ermöglichen Zufallsfunde"
+
+[category.parcel_number]
+action = "keep"
+basis = "keine Regel"
+why = "Die Regeln erwähnen Grundstücknummern nicht; das Audit markiert sie als indirekten Identifikator"
+
+[category.lawyer]
+action = "keep"
+basis = "Art. 4 Abs. 1 lit. g"
+why = "Namen der Rechtsvertreter der Parteien"
+
+[category.court_official]
+action = "keep"
+basis = "Art. 5 Abs. 1"
+why = "Behördenmitglieder, Gerichtspersonen, Schiedsrichter, Staatsanwälte"
+
+[category.authority]
+action = "keep"
+basis = "Art. 4 Abs. 1 lit. a"
+why = "Namen von Behörden, öffentlichrechtlichen Anstalten und Körperschaften"
+
+[category.public_body]
+action = "keep"
+basis = "Art. 4 Abs. 1 lit. a-b"
+why = "Öffentlichrechtliche Körperschaften und Gemeindenamen"
+
+[category.expert]
+action = "keep"
+basis = "Art. 6 Abs. 1"
+why = "Behördlich bestellte Experten"
+# Art. 6 Abs. 2: in social insurance matters court experts and clinics are anonymised.
+social_insurance_action = "pseudonymize"
+social_insurance_basis = "Art. 6 Abs. 2"
+
+[category.place]
+action = "keep"
+basis = "Art. 4 Abs. 1 lit. b, e"
+why = "Gemeindenamen und Ortsbezeichnungen, soweit nicht Wohnort oder Sitz einer Partei"
+
+[category.occupation]
+action = "keep"
+basis = "keine Regel"
+why = "Die Regeln verlangen keine Entfernung; das Audit markiert Berufe privater Personen"
+
+[category.birth_date]
+action = "keep"
+basis = "keine Regel"
+why = "Die Regeln verlangen keine Entfernung; die Praxis nennt den Jahrgang (\"Der 1963 geborene A.\")"
