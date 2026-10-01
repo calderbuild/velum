@@ -276,6 +276,21 @@ def report(path, tag, cases):
         len(r["usage"].get("sweep", {}).get("added", [])) for r in ok
     )
     summary["rejected_mentions"] = sum(len(r.get("rejected", [])) for r in ok)
+    by_id = {c["id"]: c for c in cases}
+    free = [(r, bench.free_form(by_id[r["id"]], r["edits"])) for r in ok]
+    summary["free_form"] = {
+        "edits": sum(len(f) for _, f in free),
+        "decisions": sum(1 for _, f in free if f),
+        "decisions_with_digits": sum(
+            1
+            for r, f in free
+            if any(
+                ch.isdigit()
+                for e in f
+                for ch in by_id[r["id"]]["text"][e["start"] : e["end"]] + e["replacement"]
+            )
+        ),
+    }
     path.with_suffix(".summary.json").write_text(json.dumps(summary, indent=1))
     a = summary["all"]
     print(f"\n{tag}  ({summary['cases']} cases, {summary['errors']} errors)")
@@ -303,6 +318,11 @@ def report(path, tag, cases):
     print(
         f"  leaks flagged by audit {summary['leaks_flagged_by_audit']:.0%}, mentions rejected {summary['rejected_mentions']}, "
         f"names added by sweep {summary['sweep_added']}"
+    )
+    f = summary["free_form"]
+    print(
+        f"  free-form changes outside the names: {f['edits']} in {f['decisions']} decisions, "
+        f"{f['decisions_with_digits']} of them touching digits"
     )
 
 

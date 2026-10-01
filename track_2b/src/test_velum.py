@@ -147,6 +147,15 @@ class Bench(unittest.TestCase):
         none = bench.score(case, case["text"], [])
         self.assertEqual(none["leaked"], len(case["gold"]))
 
+    def test_free_form_counts_only_rewording_outside_gold(self):
+        case = {"text": "A met Hans Muster on 3 May.", "gold": [{"start": 6, "end": 17}]}
+        edits = [
+            {"start": 6, "end": 17, "replacement": "anybody"},  # on gold: not counted
+            {"start": 0, "end": 1, "replacement": "B.________"},  # placeholder: not counted
+            {"start": 21, "end": 22, "replacement": "4"},  # changed date: counted
+        ]
+        self.assertEqual(bench.free_form(case, edits), [edits[2]])
+
 
 if __name__ == "__main__":
     unittest.main()

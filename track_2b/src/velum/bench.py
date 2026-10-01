@@ -385,6 +385,22 @@ def score(case, output, edits):
     }
 
 
+MARKER = re.compile(r"[A-Z]{1,2}\.(?:_{3,})?|\[…\]")
+
+
+def free_form(case, edits):
+    """Edits outside the gold spans that write anything other than a placeholder or a removal
+    marker: rewording, deleted passages, changed numbers. Velum cannot produce them."""
+    gold = set().union(*(range(g["start"], g["end"]) for g in case["gold"]))
+    return [
+        e
+        for e in edits
+        if not MARKER.fullmatch(e["replacement"].strip())
+        and any(c.isalnum() for c in case["text"][e["start"] : e["end"]] + e["replacement"])
+        and not gold.intersection(range(e["start"], e["end"]))
+    ]
+
+
 def _count(items):
     out = {}
     for i in items:

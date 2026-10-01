@@ -1,0 +1,99 @@
+{
+ "tag": "rewrite_Apertus-v1.5-70B_bger-2020_test",
+ "cases": 60,
+ "errors": 0,
+ "all": {
+  "cases": 60,
+  "recall": 0.7078189300411523,
+  "zero_leak_cases": 0.13333333333333333,
+  "over_redaction": 0.04294478527607362,
+  "consistency": 0.881578947368421,
+  "label_collisions": 3,
+  "extra_chars_per_1k": 5.193914010553465,
+  "recall_by_kind": {
+   "address": 0.125,
+   "company": 0.7547169811320755,
+   "person": 0.7728459530026109,
+   "place": 1.0
+  },
+  "gold_mentions": 486,
+  "keep_mentions": 326
+ },
+ "de": {
+  "cases": 20,
+  "recall": 0.703448275862069,
+  "zero_leak_cases": 0.05,
+  "over_redaction": 0.0,
+  "consistency": 0.9090909090909091,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 6.094354437857035,
+  "recall_by_kind": {
+   "address": 0.11764705882352944,
+   "company": 0.9047619047619048,
+   "person": 0.7523809523809524,
+   "place": 1.0
+  },
+  "gold_mentions": 145,
+  "keep_mentions": 107
+ },
+ "fr": {
+  "cases": 20,
+  "recall": 0.7419354838709677,
+  "zero_leak_cases": 0.25,
+  "over_redaction": 0.0,
+  "consistency": 0.9090909090909091,
+  "label_collisions": 2,
+  "extra_chars_per_1k": 4.849327146518422,
+  "recall_by_kind": {
+   "address": 0.25,
+   "company": 0.7142857142857143,
+   "person": 0.791907514450867
+  },
+  "gold_mentions": 217,
+  "keep_mentions": 96
+ },
+ "it": {
+  "cases": 20,
+  "recall": 0.6532258064516129,
+  "zero_leak_cases": 0.1,
+  "over_redaction": 0.11382113821138211,
+  "consistency": 0.8095238095238095,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 4.66791144305148,
+  "recall_by_kind": {
+   "address": 0.0,
+   "company": 0.25,
+   "person": 0.7619047619047619
+  },
+  "gold_mentions": 124,
+  "keep_mentions": 123
+ },
+ "leaks_flagged_by_audit": 0.0,
+ "usage": {
+  "extraction": {
+   "calls": 102,
+   "prompt_tokens": 148872,
+   "completion_tokens": 128004,
+   "seconds": 2545.5
+  },
+  "sweep": {
+   "calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "seconds": 0
+  },
+  "second_reader": {
+   "calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "seconds": 0
+  }
+ },
+ "sweep_added": 0,
+ "rejected_mentions": 0,
+ "free_form": {
+  "edits": 215,
+  "decisions": 45,
+  "decisions_with_digits": 13
+ }
+}

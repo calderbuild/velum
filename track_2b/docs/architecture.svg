@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 360" width="960" height="360" font-family="Avenir Next, Helvetica Neue, Segoe UI, Arial, sans-serif">
+  <title>Velum pipeline</title>
+  <desc>Decision text goes through Find (Apertus and regexes), Decide (rule pack), Write (edits with a diff guard), Sweep (Apertus rereads the output and sends missed names back to Decide), Audit (Apertus second reader and deterministic checks) and Review (the clerk's interface).</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1c2230"/>
+    </marker>
+    <style>
+      .box { stroke-width: 1.5; rx: 6; }
+      .model { fill: #e7eef8; stroke: #1d56a3; }
+      .code { fill: #ffffff; stroke: #1c2230; }
+      .data { fill: #eef1ef; stroke: #8a948f; }
+      .h { font-size: 16px; font-weight: 600; fill: #1c2230; }
+      .t { font-size: 13px; fill: #1c2230; }
+      .tag { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
+      .edge { stroke: #1c2230; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+      .loop { stroke: #1d56a3; stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; marker-end: url(#arrow); }
+      .note { font-size: 12px; fill: #1d56a3; font-style: italic; }
+    </style>
+  </defs>
+  <rect width="960" height="360" fill="#ffffff"/>
+
+  <!-- row 1 -->
+  <rect class="box data" x="16" y="40" width="140" height="104"/>
+  <text class="h" x="30" y="70">Decision</text>
+  <text class="t" x="30" y="94">plain text in</text>
+  <text class="t" x="30" y="112">German, French</text>
+  <text class="t" x="30" y="130">or Italian</text>
+
+  <rect class="box model" x="186" y="40" width="230" height="104"/>
+  <text class="h" x="200" y="70">1 Find</text>
+  <text class="tag" x="402" y="62" text-anchor="end" fill="#1d56a3">APERTUS</text>
+  <text class="t" x="200" y="94">Apertus labels names and roles,</text>
+  <text class="t" x="200" y="112">regexes catch identifiers; a span</text>
+  <text class="t" x="200" y="130">counts only if found verbatim</text>
+
+  <rect class="box code" x="446" y="40" width="220" height="104"/>
+  <text class="h" x="460" y="70">2 Decide</text>
+  <text class="tag" x="652" y="62" text-anchor="end" fill="#1c2230">CODE</text>
+  <text class="t" x="460" y="94">rule pack (TOML): each type is</text>
+  <text class="t" x="460" y="112">kept, replaced or removed,</text>
+  <text class="t" x="460" y="130">citing the article that says so</text>
+
+  <rect class="box code" x="696" y="40" width="248" height="104"/>
+  <text class="h" x="710" y="70">3 Write</text>
+  <text class="tag" x="930" y="62" text-anchor="end" fill="#1c2230">CODE</text>
+  <text class="t" x="710" y="94">code writes each edit at a checked</text>
+  <text class="t" x="710" y="112">position; the diff guard proves</text>
+  <text class="t" x="710" y="130">every other character is unchanged</text>
+
+  <!-- row 2 -->
+  <rect class="box model" x="696" y="214" width="248" height="104"/>
+  <text class="h" x="710" y="244">4 Sweep</text>
+  <text class="tag" x="930" y="236" text-anchor="end" fill="#1d56a3">APERTUS</text>
+  <text class="t" x="710" y="268">Apertus rereads the anonymised</text>
+  <text class="t" x="710" y="286">draft and names private parties</text>
+  <text class="t" x="710" y="304">nobody classified</text>
+
+  <rect class="box model" x="446" y="214" width="220" height="104"/>
+  <text class="h" x="460" y="244">5 Audit</text>
+  <text class="tag" x="652" y="236" text-anchor="end" fill="#1d56a3">APERTUS</text>
+  <text class="t" x="460" y="268">second reader quotes passages</text>
+  <text class="t" x="460" y="286">that could still identify someone;</text>
+  <text class="t" x="460" y="304">code adds leftover-name checks</text>
+
+  <rect class="box code" x="186" y="214" width="230" height="104"/>
+  <text class="h" x="200" y="244">6 Review</text>
+  <text class="tag" x="402" y="236" text-anchor="end" fill="#1c2230">CLERK</text>
+  <text class="t" x="200" y="268">each edit with its article, the</text>
+  <text class="t" x="200" y="286">names kept on purpose, the risks;</text>
+  <text class="t" x="200" y="304">another pack: no model call</text>
+
+  <rect class="box data" x="16" y="214" width="140" height="104"/>
+  <text class="h" x="30" y="244">Publication</text>
+  <text class="t" x="30" y="268">anonymised text</text>
+  <text class="t" x="30" y="286">and an edit log</text>
+  <text class="t" x="30" y="304">per article</text>
+
+  <!-- edges -->
+  <path class="edge" d="M156,92 L184,92"/>
+  <path class="edge" d="M416,92 L444,92"/>
+  <path class="edge" d="M666,92 L694,92"/>
+  <path class="edge" d="M820,144 L820,212"/>
+  <path class="loop" d="M720,214 L720,180 L600,180 L600,146"/>
+  <text class="note" x="608" y="174">missed names, step 2 again</text>
+  <path class="edge" d="M696,266 L668,266"/>
+  <path class="edge" d="M446,266 L418,266"/>
+  <path class="edge" d="M186,266 L158,266"/>
+
+  <!-- legend -->
+  <rect x="16" y="336" width="14" height="10" class="model" stroke-width="1.5"/>
+  <text class="t" x="36" y="346">Apertus call (JSON schema, temperature 0)</text>
+  <rect x="340" y="336" width="14" height="10" class="code" stroke-width="1.5"/>
+  <text class="t" x="360" y="346">deterministic code, no model</text>
+</svg>

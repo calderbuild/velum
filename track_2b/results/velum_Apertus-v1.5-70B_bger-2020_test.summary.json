@@ -1,0 +1,118 @@
+{
+ "tag": "velum_Apertus-v1.5-70B_bger-2020_test",
+ "cases": 537,
+ "errors": 0,
+ "all": {
+  "cases": 537,
+  "recall": 0.8936829558998808,
+  "zero_leak_cases": 0.6443202979515829,
+  "over_redaction": 0.011994949494949494,
+  "consistency": 0.9351771823681936,
+  "label_collisions": 14,
+  "extra_chars_per_1k": 8.228929909438362,
+  "recall_by_kind": {
+   "address": 0.9946524064171123,
+   "company": 0.9726603575184016,
+   "person": 0.8995977953225086,
+   "place": 0.4602272727272727
+  },
+  "gold_mentions": 8390,
+  "keep_mentions": 3168
+ },
+ "before_sweep": {
+  "cases": 537,
+  "recall": 0.8722288438617402,
+  "zero_leak_cases": 0.5977653631284916,
+  "over_redaction": 0.010732323232323232,
+  "consistency": 0.9495575221238938,
+  "label_collisions": 13,
+  "extra_chars_per_1k": 7.757532128199078,
+  "recall_by_kind": {
+   "address": 0.9946524064171123,
+   "company": 0.9484752891692955,
+   "person": 0.8772530910174289,
+   "place": 0.44034090909090906
+  },
+  "gold_mentions": 8390,
+  "keep_mentions": 3168
+ },
+ "de": {
+  "cases": 198,
+  "recall": 0.863536316947909,
+  "zero_leak_cases": 0.5505050505050505,
+  "over_redaction": 0.005511811023622047,
+  "consistency": 0.9323308270676691,
+  "label_collisions": 2,
+  "extra_chars_per_1k": 11.458766344519184,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.9395017793594306,
+   "person": 0.8822103732428502,
+   "place": 0.5333333333333333
+  },
+  "gold_mentions": 2726,
+  "keep_mentions": 1270
+ },
+ "fr": {
+  "cases": 180,
+  "recall": 0.9244799088059277,
+  "zero_leak_cases": 0.6833333333333333,
+  "over_redaction": 0.018065887353878853,
+  "consistency": 0.9614512471655329,
+  "label_collisions": 6,
+  "extra_chars_per_1k": 6.370610971282647,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.98989898989899,
+   "person": 0.9193006052454606,
+   "place": 0.27586206896551724
+  },
+  "gold_mentions": 3509,
+  "keep_mentions": 941
+ },
+ "it": {
+  "cases": 159,
+  "recall": 0.8816705336426914,
+  "zero_leak_cases": 0.7169811320754716,
+  "over_redaction": 0.014629049111807733,
+  "consistency": 0.9022082018927445,
+  "label_collisions": 6,
+  "extra_chars_per_1k": 6.099001552010526,
+  "recall_by_kind": {
+   "address": 0.9836065573770492,
+   "company": 0.9817518248175182,
+   "person": 0.886038186157518,
+   "place": 0.3132530120481928
+  },
+  "gold_mentions": 2155,
+  "keep_mentions": 957
+ },
+ "leaks_flagged_by_audit": 0.3273542600896861,
+ "usage": {
+  "extraction": {
+   "calls": 1725,
+   "prompt_tokens": 3978031,
+   "completion_tokens": 923844,
+   "seconds": 19608.5
+  },
+  "sweep": {
+   "calls": 1716,
+   "prompt_tokens": 2951617,
+   "completion_tokens": 123469,
+   "seconds": 5000.9
+  },
+  "second_reader": {
+   "calls": 1717,
+   "prompt_tokens": 3110704,
+   "completion_tokens": 1021080,
+   "seconds": 21263.0
+  }
+ },
+ "sweep_added": 290,
+ "rejected_mentions": 6369,
+ "free_form": {
+  "edits": 0,
+  "decisions": 0,
+  "decisions_with_digits": 0
+ }
+}

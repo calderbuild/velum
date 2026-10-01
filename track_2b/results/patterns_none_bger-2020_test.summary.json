@@ -1,0 +1,101 @@
+{
+ "tag": "patterns_none_bger-2020_test",
+ "cases": 537,
+ "errors": 0,
+ "all": {
+  "cases": 537,
+  "recall": 0.04576877234803334,
+  "zero_leak_cases": 0.0,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 5,
+  "extra_chars_per_1k": 1.5682364713353663,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.0,
+   "person": 0.0014896469536719303,
+   "place": 0.0
+  },
+  "gold_mentions": 8390,
+  "keep_mentions": 3168
+ },
+ "de": {
+  "cases": 198,
+  "recall": 0.052090975788701366,
+  "zero_leak_cases": 0.0,
+  "over_redaction": 0.0,
+  "consistency": 0.0,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 1.894489740388962,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.0,
+   "person": 0.0,
+   "place": 0.0
+  },
+  "gold_mentions": 2726,
+  "keep_mentions": 1270
+ },
+ "fr": {
+  "cases": 180,
+  "recall": 0.034197777144485575,
+  "zero_leak_cases": 0.0,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 5,
+  "extra_chars_per_1k": 1.378895406287035,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.0,
+   "person": 0.00336247478143914,
+   "place": 0.0
+  },
+  "gold_mentions": 3509,
+  "keep_mentions": 941
+ },
+ "it": {
+  "cases": 159,
+  "recall": 0.05661252900232017,
+  "zero_leak_cases": 0.0,
+  "over_redaction": 0.0,
+  "consistency": 0.0,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 1.3549298243275933,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.0,
+   "person": 0.0,
+   "place": 0.0
+  },
+  "gold_mentions": 2155,
+  "keep_mentions": 957
+ },
+ "leaks_flagged_by_audit": 0.0,
+ "usage": {
+  "extraction": {
+   "calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "seconds": 0
+  },
+  "sweep": {
+   "calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "seconds": 0
+  },
+  "second_reader": {
+   "calls": 0,
+   "prompt_tokens": 0,
+   "completion_tokens": 0,
+   "seconds": 0
+  }
+ },
+ "sweep_added": 0,
+ "rejected_mentions": 0,
+ "free_form": {
+  "edits": 0,
+  "decisions": 0,
+  "decisions_with_digits": 0
+ }
+}
