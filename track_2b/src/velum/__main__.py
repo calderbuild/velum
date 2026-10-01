@@ -234,7 +234,11 @@ def cmd_bench(args):
             sink.flush()
             if i % 10 == 0 or i == len(todo):
                 print(f"  {i}/{len(todo)}", file=sys.stderr)
-    report(path, tag, cases)
+    # a subset gets its own summary file, so it never overwrites the summary of the full split
+    subset = (f".per-language-{args.per_language}" if args.per_language else "") + (
+        f".limit-{args.limit}" if args.limit else ""
+    )
+    report(path, tag, cases, path.with_name(f"{path.stem}{subset}.summary.json"))
 
 
 def _pass(usage, name):
@@ -242,7 +246,7 @@ def _pass(usage, name):
     return usage if name == "extraction" else usage.get(name) or {}
 
 
-def report(path, tag, cases):
+def report(path, tag, cases, summary_path):
     rows = [json.loads(line) for line in path.read_text().splitlines()]
     ids = {c["id"] for c in cases}
     rows = [r for r in rows if r["id"] in ids]
@@ -291,7 +295,7 @@ def report(path, tag, cases):
             )
         ),
     }
-    path.with_suffix(".summary.json").write_text(json.dumps(summary, indent=1))
+    summary_path.write_text(json.dumps(summary, indent=1))
     a = summary["all"]
     print(f"\n{tag}  ({summary['cases']} cases, {summary['errors']} errors)")
     print(
