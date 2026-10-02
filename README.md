@@ -7,6 +7,8 @@ else in the text changed.
 Built for Hack Apertus 2026, Track 2B (Own Project). Everything lives in [`track_2b/`](track_2b/):
 the challenge text is [`track_2b/README.md`](track_2b/README.md), the write-up is
 [`track_2b/technical_report.md`](track_2b/technical_report.md) (PDF: `track_2b/Calder_Report.pdf`).
+Demo video (1:57): [youtu.be/9_h7k1gyfWY](https://youtu.be/9_h7k1gyfWY). Test set and run outputs:
+[huggingface.co/datasets/jasonrobert/velumbench](https://huggingface.co/datasets/jasonrobert/velumbench).
 
 ![The review page: each replaced name is struck through next to its placeholder, the article that requires it stands in the margin, and names kept on purpose are marked "stet"](track_2b/docs/review.png)
 

@@ -5,8 +5,8 @@ Anonymising Swiss court decisions with Apertus, with every edit tied to the rule
 - **Track:** Track 2B: Velum
 - **Event:** Online
 - **Team:** Calder: Calder Luo
-- **Demo:** TBD_VIDEO
-- **Code:** [github.com/calderbuild/velum](https://github.com/calderbuild/velum) · **Data:** TBD_HF
+- **Demo:** [youtu.be/9_h7k1gyfWY](https://youtu.be/9_h7k1gyfWY) (1:57)
+- **Code:** [github.com/calderbuild/velum](https://github.com/calderbuild/velum) · **Data:** [huggingface.co/datasets/jasonrobert/velumbench](https://huggingface.co/datasets/jasonrobert/velumbench)
 
 ## 1. Summary
 
