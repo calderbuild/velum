@@ -119,7 +119,7 @@ def _post(url, key, body, attempts=5):
             detail = e.read().decode(errors="replace")[:300]
             if e.code not in RETRY_STATUS or attempt == attempts - 1:
                 raise LLMError(f"HTTP {e.code} from {url}: {detail}") from e
-        except (urllib.error.URLError, TimeoutError) as e:
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
             if attempt == attempts - 1:
                 raise LLMError(f"cannot reach {url}: {e}") from e
         time.sleep(2 ** (attempt + 1))

@@ -29,12 +29,11 @@ Everything that needs the internet happens here, once.
 cd track_2b
 mkdir -p models
 # Apertus v1.5 8B, text-only conversion quantised to Q4_K_M: 5.06 GB, Apache-2.0.
-# The repository is gated: accept the Apertus licence on its page, then use a Hugging Face token.
-curl -L -H "Authorization: Bearer $HF_TOKEN" -o models/apertus-v1.5-8b-text-q4_k_m.gguf \
+curl -L -o models/apertus-v1.5-8b-text-q4_k_m.gguf \
   https://huggingface.co/Colby/apertus-v1.5-8b-text-Q4_K_M-GGUF/resolve/main/apertus-v1.5-8b-text-q4_k_m.gguf
 shasum -a 256 models/apertus-v1.5-8b-text-q4_k_m.gguf
 # expected a037df8d87ff6caacee794ee85f55342f2152e0d359b7389033300c3bee5f299
-docker compose -f compose.airgapped.yml pull apertus   # llama.cpp server, about 300 MB
+docker compose -f compose.airgapped.yml pull apertus   # llama.cpp server, 1.2 GB
 docker compose -f compose.airgapped.yml build velum    # python:3.12-slim plus Velum
 ```
 
@@ -56,7 +55,8 @@ This starts llama.cpp, waits for its health check, then runs the same demo as `m
 decisions, extraction, rule pack, sweep and second reader, all against the local model. Nothing is
 downloaded at runtime.
 
-To check the isolation yourself while it runs:
+To check the isolation yourself, run this before or after `make airgapped`, not during it: the
+run stops as soon as any container on its network exits.
 
 ```bash
 docker compose -f compose.airgapped.yml run --rm velum \
