@@ -31,7 +31,7 @@ review page shows the clerk each edit with its article. On VelumBench, an open t
 held-out decisions in German, French and Italian built from published decisions, Velum with
 Apertus 70B removed 89.4% of the identities (96.7% on the baseline's 60 decisions), kept 98.8%
 of the names the courts publish, and changed nothing outside its logged edits. The same pipeline
-runs with no network at all, against Apertus 8B in llama.cpp.
+runs with no network at all, against Apertus 8B in llama.cpp; I ran the demo that way on a Mac mini.
 
 ## 2. Architecture
 
@@ -78,7 +78,10 @@ explains the selected entity.*
 **Target architecture: b) air-gapped.** Velum needs nothing beyond the Python standard library and
 makes no network request except to `LLM_BASE_URL`. `compose.airgapped.yml` puts Velum and a
 llama.cpp server with Apertus v1.5 8B (Q4_K_M) on a Docker network marked `internal`, which has no
-route out, and `make airgapped` runs the demo there (`docs/airgapped.md`). The same image runs
+route out, and `make airgapped` runs the demo there (`docs/airgapped.md`). On a Mac mini with
+Docker limited to 8 CPUs and 12 GB, it anonymised the three demo decisions (de, fr, it) in 8 minutes
+on CPU, removed 32 of 33 identities and kept every published name; a request from inside the network
+to the internet failed. The same image runs
 **a) on-premise** against any OpenAI-compatible server in the court's network that serves Apertus.
 The reported numbers come from the endpoint of the Swiss National Supercomputing Centre (CSCS),
 which the hackathon provides; for real decisions a court would use a) or b).
@@ -222,8 +225,8 @@ about twice the tokens of the rewrite on these decisions.
   1 October 2026. Hosted models can change, so the raw outputs of every run are in `results/` and
   each summary recomputes from them without a model call (`results/README.md`).
 - Seeds: sampling seed `20261001`, split by `sha256(id) mod 7`, temperature 0.
-- Hardware: a MacBook with Docker for Velum; the model ran on the CSCS endpoint, or locally in
-  llama.cpp for the air-gapped run.
+- Hardware: a MacBook with Docker for Velum and the CSCS endpoint for the model; for the air-gapped
+  run, a Mac mini with Docker limited to 8 CPUs and 12 GB, CPU only (`docs/airgapped.md`).
 
 ## 8. Next steps
 

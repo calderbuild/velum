@@ -66,8 +66,25 @@ docker compose -f compose.airgapped.yml run --rm velum \
 
 ### Hardware
 
-The 8B Q4_K_M model needs about 8 GB of free RAM (5 GB of weights plus the context cache) and runs on CPU. On a GPU machine, replace the image
-tag `server-b11312` with `server-cuda-b11312`, which is the same llama.cpp build compiled for CUDA.
+The 8B Q4_K_M model runs on CPU. Give Docker at least 10 GB: the llama.cpp container peaked at
+8.8 GiB in the tested run below, and on a Docker VM with 7.65 GiB the server was killed for lack of
+memory. On a GPU machine, replace the image tag `server-b11312` with `server-cuda-b11312`, which is
+the same llama.cpp build compiled for CUDA.
+
+### Tested run (2 October 2026)
+
+Mac mini (Apple silicon, 24 GB), Docker in a colima VM with 8 CPUs and 12 GB, CPU only:
+
+| Decision | Language | Time | Identities removed | Judges, clerks, lawyers kept |
+| --- | --- | ---: | ---: | ---: |
+| 4A_172/2025 | de | 157 s | 10/10 | 9/9 |
+| 1C_92/2025 | fr | 171 s | 14/15 | 7/7 |
+| 4A_193/2020 | it | 145 s | 8/8 | 5/5 |
+
+`make airgapped` took 8 minutes from start to exit, including loading the model. The isolation check
+above, run afterwards on the same network, failed on DNS for `huggingface.co` and with "Network is
+unreachable" for `1.1.1.1`. Three decisions are a smoke test, not a score: I have not run the test
+split against the quantised model.
 
 ## Build time versus runtime
 
