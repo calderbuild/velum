@@ -9,6 +9,9 @@ the challenge text is [`track_2b/README.md`](track_2b/README.md), the write-up i
 [`track_2b/technical_report.md`](track_2b/technical_report.md) (PDF: `track_2b/Calder_Report.pdf`).
 Demo video (1:57): [youtu.be/9_h7k1gyfWY](https://youtu.be/9_h7k1gyfWY). Test set and run outputs:
 [huggingface.co/datasets/jasonrobert/velumbench](https://huggingface.co/datasets/jasonrobert/velumbench).
+Added after submission: the air-gapped model scored on the benchmark, and where the missed places
+come from ([`track_2b/docs/after-submission.md`](track_2b/docs/after-submission.md)). The submitted
+version is tag [`v1.0`](https://github.com/calderbuild/velum/tree/v1.0).
 
 ![The review page: each replaced name is struck through next to its placeholder, the article that requires it stands in the margin, and names kept on purpose are marked "stet"](track_2b/docs/review.png)
 

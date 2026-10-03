@@ -1,0 +1,116 @@
+{
+ "tag": "velum_Apertus-v1.5-8B-Q4_K_M-llamacpp_bger-2020_test",
+ "cases": 60,
+ "errors": 0,
+ "all": {
+  "cases": 60,
+  "recall": 0.8600823045267489,
+  "zero_leak_cases": 0.6333333333333333,
+  "over_redaction": 0.003067484662576687,
+  "consistency": 0.9879518072289156,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 8.816639454816498,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.7735849056603774,
+   "person": 0.8590078328981723,
+   "place": 0.0
+  },
+  "gold_mentions": 486,
+  "keep_mentions": 326
+ },
+ "before_sweep": {
+  "cases": 60,
+  "recall": 0.8580246913580247,
+  "zero_leak_cases": 0.6333333333333333,
+  "over_redaction": 0.003067484662576687,
+  "consistency": 0.9878048780487805,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 8.75038451527413,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.7735849056603774,
+   "person": 0.8563968668407311,
+   "place": 0.0
+  },
+  "gold_mentions": 486,
+  "keep_mentions": 326
+ },
+ "de": {
+  "cases": 20,
+  "recall": 0.8206896551724138,
+  "zero_leak_cases": 0.55,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 5.604500889660488,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.7619047619047619,
+   "person": 0.819047619047619,
+   "place": 0.0
+  },
+  "gold_mentions": 145,
+  "keep_mentions": 107
+ },
+ "fr": {
+  "cases": 20,
+  "recall": 0.9124423963133641,
+  "zero_leak_cases": 0.75,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 7.5616626691473705,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.7857142857142857,
+   "person": 0.9248554913294798
+  },
+  "gold_mentions": 217,
+  "keep_mentions": 96
+ },
+ "it": {
+  "cases": 20,
+  "recall": 0.814516129032258,
+  "zero_leak_cases": 0.6,
+  "over_redaction": 0.008130081300813009,
+  "consistency": 0.9565217391304348,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 12.910109362496666,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.75,
+   "person": 0.7904761904761904
+  },
+  "gold_mentions": 124,
+  "keep_mentions": 123
+ },
+ "leaks_flagged_by_audit": 0.3235294117647059,
+ "usage": {
+  "extraction": {
+   "calls": 102,
+   "prompt_tokens": 204773,
+   "completion_tokens": 49045,
+   "seconds": 17863.9
+  },
+  "sweep": {
+   "calls": 102,
+   "prompt_tokens": 152541,
+   "completion_tokens": 4049,
+   "seconds": 3650.2
+  },
+  "second_reader": {
+   "calls": 102,
+   "prompt_tokens": 159761,
+   "completion_tokens": 38273,
+   "seconds": 12041.7
+  }
+ },
+ "sweep_added": 3,
+ "rejected_mentions": 212,
+ "free_form": {
+  "edits": 0,
+  "decisions": 0,
+  "decisions_with_digits": 0
+ }
+}

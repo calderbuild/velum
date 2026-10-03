@@ -83,8 +83,9 @@ Mac mini (Apple silicon, 24 GB), Docker in a colima VM with 8 CPUs and 12 GB, CP
 
 `make airgapped` took 8 minutes from start to exit, including loading the model. The isolation check
 above, run afterwards on the same network, failed on DNS for `huggingface.co` and with "Network is
-unreachable" for `1.1.1.1`. Three decisions are a smoke test, not a score: I have not run the test
-split against the quantised model.
+unreachable" for `1.1.1.1`. Three decisions are a smoke test, not a score. On the 60 decisions of the rewrite baseline the
+same setup reaches 86.0% recall, against 92.6% for 8B on the CSCS endpoint
+([`after-submission.md`](after-submission.md)).
 
 ## Build time versus runtime
 
