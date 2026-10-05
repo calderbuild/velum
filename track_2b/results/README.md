@@ -12,6 +12,8 @@ VelumBench test split, on 1 October 2026, with the CSCS endpoint at temperature 
 | `patterns_none_bger-2020_test.*` | regular expressions only, no model |
 | `velum_Apertus-v1.5-8B_bger-2020_test.per-language-20.summary.json` | the 8B rows scored on the same 60 decisions (added 4 October 2026) |
 | `velum_Apertus-v1.5-8B-Q4_K_M-llamacpp_bger-2020_test.*` | the air-gapped setup, 8B Q4_K_M in llama.cpp on CPU, on the same 60 decisions (4 October 2026, [`docs/after-submission.md`](../docs/after-submission.md)) |
+| `velum_Apertus-v1.5-8B-Q8_0-llamacpp-gpu_bger-2020_test.*` | 8B Q8_0 in the same llama.cpp build on one NVIDIA L4, same 60 decisions (5 October 2026) |
+| `velum_Apertus-v1.5-8B-Q4_K_M-llamacpp-gpu_bger-2020_test.*` | the same Q4_K_M file as the air-gapped run, on the L4 (5 October 2026) |
 
 Each line of a `.jsonl.gz` file is one decision: the output text, every edit with its article, the
 risks the audit raised, the score and the token usage. A summary recomputes from its raw output
@@ -26,7 +28,8 @@ LLM_NAME=swiss-ai/Apertus-v1.5-70B LLM_BASE_URL=http://127.0.0.1:9 LLM_API_KEY=u
   python3 -m velum bench --split test --out /tmp/runs
 ```
 
-Set `LLM_NAME` to the model of the run (`swiss-ai/Apertus-v1.5-8B` for the 8B file, `Apertus-v1.5-8B-Q4_K_M-llamacpp` with `--per-language 20` for the air-gapped one), since the file
+Set `LLM_NAME` to the model of the run (`swiss-ai/Apertus-v1.5-8B` for the 8B file, `Apertus-v1.5-8B-Q4_K_M-llamacpp` with `--per-language 20` for the air-gapped one, and the names in
+the file names with `--per-language 20` for the two L4 runs), since the file
 name follows it. Add `--per-language 20` for the 60-decision subset (its summary goes to a file of its own),
 `--system rewrite --per-language 20` for the baseline and `--system patterns` for the pattern run.
 Run the baseline only with `--per-language 20`: its file holds those 60 decisions, so without the

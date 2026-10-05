@@ -37,8 +37,11 @@ docker compose -f compose.airgapped.yml pull apertus   # llama.cpp server, 1.2 G
 docker compose -f compose.airgapped.yml build velum    # python:3.12-slim plus Velum
 ```
 
-To use the 8-bit model instead (8.57 GB, sha256 `dea904ad80cd725ec89962abae464477f5d8114d1f4377514f381f7dc2ed202d`),
-download `apertus-v1.5-8b-text-q8_0.gguf` from `andreasmartin/apertus-v1.5-8b-text-Q8_0-GGUF` and set
+The 8-bit model is the better choice where the machine has the memory: on the benchmark it matches
+8B on the CSCS endpoint (92.8% recall against 92.6%), while the 4-bit file loses 6.6 to 9.5 points
+([`after-submission.md`](after-submission.md)). It is 8.57 GB, sha256
+`dea904ad80cd725ec89962abae464477f5d8114d1f4377514f381f7dc2ed202d`. Download
+`apertus-v1.5-8b-text-q8_0.gguf` from `andreasmartin/apertus-v1.5-8b-text-Q8_0-GGUF` and set
 `GGUF=apertus-v1.5-8b-text-q8_0.gguf`.
 
 Both files are community conversions of the text part of `swiss-ai/Apertus-v1.5-8B` (GGUF
@@ -68,8 +71,13 @@ docker compose -f compose.airgapped.yml run --rm velum \
 
 The 8B Q4_K_M model runs on CPU. Give Docker at least 10 GB: the llama.cpp container peaked at
 8.8 GiB in the tested run below, and on a Docker VM with 7.65 GiB the server was killed for lack of
-memory. On a GPU machine, replace the image tag `server-b11312` with `server-cuda-b11312`, which is
-the same llama.cpp build compiled for CUDA.
+memory. The 8-bit file is 3.5 GB larger, so plan for about 13 GB (I have not measured it on CPU).
+
+On a GPU machine, use the image tag `server-cuda-b11312`, the same llama.cpp build compiled for
+CUDA, add `--n-gpu-layers 99` to the server's command and give the service the GPU
+(`deploy.resources.reservations.devices` with `driver: nvidia`). I benchmarked this build with these
+server flags on one NVIDIA L4 (24 GB): 24 seconds per decision with the 8-bit file, 2 in parallel.
+That run was not inside this compose file.
 
 ### Tested run (2 October 2026)
 
@@ -84,8 +92,8 @@ Mac mini (Apple silicon, 24 GB), Docker in a colima VM with 8 CPUs and 12 GB, CP
 `make airgapped` took 8 minutes from start to exit, including loading the model. The isolation check
 above, run afterwards on the same network, failed on DNS for `huggingface.co` and with "Network is
 unreachable" for `1.1.1.1`. Three decisions are a smoke test, not a score. On the 60 decisions of the rewrite baseline the
-same setup reaches 86.0% recall, against 92.6% for 8B on the CSCS endpoint
-([`after-submission.md`](after-submission.md)).
+same setup reaches 86.0% recall, against 92.6% for 8B on the CSCS endpoint and 92.8% for the 8-bit
+file in the same llama.cpp build ([`after-submission.md`](after-submission.md)).
 
 ## Build time versus runtime
 

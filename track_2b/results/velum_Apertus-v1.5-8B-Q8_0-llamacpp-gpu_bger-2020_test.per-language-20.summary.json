@@ -1,0 +1,116 @@
+{
+ "tag": "velum_Apertus-v1.5-8B-Q8_0-llamacpp-gpu_bger-2020_test",
+ "cases": 60,
+ "errors": 0,
+ "all": {
+  "cases": 60,
+  "recall": 0.9279835390946503,
+  "zero_leak_cases": 0.7166666666666667,
+  "over_redaction": 0.027607361963190184,
+  "consistency": 1.0,
+  "label_collisions": 2,
+  "extra_chars_per_1k": 6.367572939589692,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.9811320754716981,
+   "person": 0.9138381201044387,
+   "place": 0.5
+  },
+  "gold_mentions": 486,
+  "keep_mentions": 326
+ },
+ "before_sweep": {
+  "cases": 60,
+  "recall": 0.9074074074074074,
+  "zero_leak_cases": 0.7,
+  "over_redaction": 0.027607361963190184,
+  "consistency": 1.0,
+  "label_collisions": 2,
+  "extra_chars_per_1k": 6.180639360166584,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.9811320754716981,
+   "person": 0.8877284595300261,
+   "place": 0.5
+  },
+  "gold_mentions": 486,
+  "keep_mentions": 326
+ },
+ "de": {
+  "cases": 20,
+  "recall": 0.9310344827586207,
+  "zero_leak_cases": 0.65,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 4.264607360769935,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 0.9523809523809523,
+   "person": 0.9238095238095239,
+   "place": 0.5
+  },
+  "gold_mentions": 145,
+  "keep_mentions": 107
+ },
+ "fr": {
+  "cases": 20,
+  "recall": 0.9447004608294931,
+  "zero_leak_cases": 0.85,
+  "over_redaction": 0.0,
+  "consistency": 1.0,
+  "label_collisions": 0,
+  "extra_chars_per_1k": 4.296399243833733,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 1.0,
+   "person": 0.930635838150289
+  },
+  "gold_mentions": 217,
+  "keep_mentions": 96
+ },
+ "it": {
+  "cases": 20,
+  "recall": 0.8951612903225806,
+  "zero_leak_cases": 0.65,
+  "over_redaction": 0.07317073170731707,
+  "consistency": 1.0,
+  "label_collisions": 1,
+  "extra_chars_per_1k": 10.162710056014937,
+  "recall_by_kind": {
+   "address": 1.0,
+   "company": 1.0,
+   "person": 0.8761904761904762
+  },
+  "gold_mentions": 124,
+  "keep_mentions": 123
+ },
+ "leaks_flagged_by_audit": 0.6285714285714286,
+ "usage": {
+  "extraction": {
+   "calls": 102,
+   "prompt_tokens": 201644,
+   "completion_tokens": 26724,
+   "seconds": 1177.9
+  },
+  "sweep": {
+   "calls": 102,
+   "prompt_tokens": 153548,
+   "completion_tokens": 4759,
+   "seconds": 253.1
+  },
+  "second_reader": {
+   "calls": 102,
+   "prompt_tokens": 155878,
+   "completion_tokens": 34081,
+   "seconds": 1465.9
+  }
+ },
+ "sweep_added": 10,
+ "rejected_mentions": 21,
+ "free_form": {
+  "edits": 0,
+  "decisions": 0,
+  "decisions_with_digits": 0
+ }
+}
